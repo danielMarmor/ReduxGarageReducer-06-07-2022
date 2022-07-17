@@ -14,10 +14,11 @@ class App extends Component {
   };
 
   deleteCar = (_id) => {
-    const new_cars = this.state.my_cars.filter((car) => car.id !== _id);
-    this.setState({
-      my_cars: new_cars,
-    });
+    // const new_cars = this.state.my_cars.filter((car) => car.id !== _id);
+    // this.setState({
+    //   my_cars: new_cars,
+    // });
+    this.props.delete_car(_id);
   };
   addCar = (_car) => {
     // this.setState({
@@ -34,10 +35,11 @@ class App extends Component {
     one_car.brand = _car.brand;
     one_car.color = _car.color;
     one_car.year = _car.year;
+    
 
 */
-    const new_cars_again = Object.assign([], this.state.my_cars).map(
-        one_car => one_car.id === _car.id ? _car : one_car)
+    // const new_cars_again = Object.assign([], this.state.my_cars).map(
+    //     one_car => one_car.id === _car.id ? _car : one_car)
         /*
     new_cars.filter((one_car) => one_car.id === _car.id)[0];
     one_car.model = _car.model;
@@ -45,11 +47,7 @@ class App extends Component {
     one_car.color = _car.color;
     one_car.year = _car.year;    
 */
-
-    console.log(new_cars_again);
-    this.setState({
-      my_cars: new_cars_again,
-    });
+    this.props.update_car(_car);
   };
 
   get_car = (_id) => {
@@ -92,12 +90,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (store_state, current_props) => {
-  console.log('============')
-  console.log(current_props);
-  console.log('============')
-  console.log('==== mapper state')
-  console.log(store_state.my_cars)
-  // returns the new props
   return {
     ...current_props,
     my_cars: store_state.my_cars
@@ -106,7 +98,9 @@ const mapStateToProps = (store_state, current_props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    add_car: new_car => dispatch( {type:'add_car', new_car } )
+    add_car: (new_car) => dispatch( {type:'add_car', new_car :new_car } ),
+    update_car: (updated_car) => dispatch({type: 'update_car', updated_car : updated_car}),
+    delete_car :(carId) => dispatch({type: 'delete_car', carId : carId})
   } 
 }
 
